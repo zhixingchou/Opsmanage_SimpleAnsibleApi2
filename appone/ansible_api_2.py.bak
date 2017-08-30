@@ -1,0 +1,181 @@
+import json
+import shutil
+import ansible.constants as C
+from collections import namedtuple
+from ansible.parsing.dataloader import DataLoader
+from ansible.vars import VariableManager
+from ansible.inventory import Inventory,Host,Group
+from ansible.playbook.play import Play
+from ansible.executor.task_queue_manager import TaskQueueManager
+from ansible.plugins.callback import CallbackBase
+from ansible.executor.playbook_executor import PlaybookExecutor
+
+
+
+class ANSRunner(object):
+
+    """ 
+    This is a General object for parallel execute modules. 
+    """
+    def __init__(self ,resource ,*args, **kwargs):
+        self.resource = resource
+        self.inventory = None
+        self.variable_manager = None
+        self.loader = None
+        self.options = None
+        self.passwords = None
+        self.callback = None
+        self.__initializeData()
+        self.results_raw = {}
+        # self.redisKey = redisKey
+        # self.logId = logId
+
+    def __initializeData(self):
+        """ 初始化ansible """
+        Options = namedtuple('Options', ['connection' ,'module_path', 'forks', 'timeout',  'remote_user',
+                                         'ask_pass', 'private_key_file', 'ssh_common_args', 'ssh_extra_args', 'sftp_extra_args',
+                                         'scp_extra_args', 'become', 'become_method', 'become_user', 'ask_value_pass', 'verbosity',
+                                         'check', 'listhosts', 'listtasks', 'listtags', 'syntax'])
+
+        self.variable_manager = VariableManager()
+        self.loader = DataLoader()
+        self.options = Options(connection='smart', module_path=None, forks=100, timeout=10,
+                               remote_user='root', ask_pass=False, private_key_file=None, ssh_common_args=None, ssh_extra_args=None,
+                               sftp_extra_args=None, scp_extra_args=None, become=None, become_method=None,
+                               become_user='root', ask_value_pass=False, verbosity=None, check=False, listhosts=False,
+                               listtasks=False, listtags=False, syntax=False)
+
+        self.passwords = dict(sshpass=None, becomepass=None)
+
+        self.variable_manager.set_inventory(self.inventory)
+
+
+    class ResultCallback(CallbackBase):
+        def v2_runner_on_ok(self, result, **kwargs):
+            host = result._host
+            # print u"%s 执行结果" % result._task
+            # print json.dumps({host.name: result._result}, indent=4)
+            data_list = []
+            for x, y in json.loads(json.dumps({host.name: result._result})).items():
+                cmdb_data = {}
+                data = y.get('ansible_facts')
+                disk_size = 0
+                cpu = data['ansible_processor'][-1]
+                for k, v in data['ansible_devices'].items():
+                    if k[0:2] in ['sd', 'hd', 'ss', 'vd']:
+                        disk = int((int(v.get('sectors')) * int(v.get('sectorsize'))) / 1024 / 1024 / 1024)
+                        disk_size = disk_size + disk
+                cmdb_data['serial'] = data['ansible_product_serial'].split()[0]
+                cmdb_data['ip'] = x
+                cmdb_data['cpu'] = cpu.replace('@', '')
+                ram_total = str(data['ansible_memtotal_mb'])
+                if len(ram_total) == 4:
+                    ram_total = ram_total[0] + 'GB'
+                elif len(ram_total) == 5:
+                    ram_total = ram_total[0:2] + 'GB'
+                elif len(ram_total) > 5:
+                    ram_total = ram_total[0:3] + 'GB'
+                else:
+                    ram_total = ram_total + 'MB'
+                cmdb_data['ram_total'] = ram_total
+                cmdb_data['disk_total'] = str(disk_size) + 'GB'
+                cmdb_data['system'] = data['ansible_distribution'] + ' ' + data['ansible_distribution_version'] + ' ' + \
+                                      data['ansible_userspace_bits']
+                cmdb_data['model'] = data['ansible_product_name'].split(':')[0]
+                cmdb_data['cpu_number'] = data['ansible_processor_count']
+                cmdb_data['vcpu_number'] = data['ansible_processor_vcpus']
+                cmdb_data['cpu_core'] = data['ansible_processor_cores']
+                cmdb_data['hostname'] = data['ansible_hostname']
+                cmdb_data['kernel'] = str(data['ansible_kernel'])
+                cmdb_data['manufacturer'] = data['ansible_system_vendor']
+                if data['ansible_selinux']:
+                    cmdb_data['selinux'] = data['ansible_selinux'].get('status')
+                else:
+                    cmdb_data['selinux'] = 'disabled'
+                cmdb_data['swap'] = str(data['ansible_swaptotal_mb']) + 'MB'
+                cmdb_data['status'] = 0
+                data_list.append(cmdb_data)
+            if data_list:
+                print data_list
+
+            print "-----------------------------------------------"
+
+
+
+    # 定义ansible主机
+    host_info = Host(name='192.168.2.159', port=22)
+    # 设置主机的用户名和密码
+    variable_manager.set_host_variable(host_info, 'ansible_ssh_user', 'root')
+    variable_manager.set_host_variable(host_info, 'ansible_ssh_pass', 'met21sh159')
+
+    # 定义匹配host_list中的主机的正则表达式,本次采用精确匹配。
+    host_pattern = '192.168.2.159'
+
+
+# def run_model(self, host_list, module_name, module_args):
+    #     """
+    #     run module from andible ad-hoc.
+    #     module_name: ansible module_name
+    #     module_args: ansible module args
+    #     """
+    #     play_source = dict(
+    #         name="Ansible Play",
+    #         hosts=host_list,
+    #         gather_facts='no',
+    #         tasks=[dict(action=dict(module=module_name, args=module_args))]
+    #     )
+    #     play = Play().load(play_source, variable_manager=self.variable_manager, loader=self.loader)
+    #     tqm = None
+    #     if self.redisKey \
+    #         :self.callback = ModelResultsCollectorToSave(self.redisKey ,self.logId)
+    #     else \
+    #         :self.callback = ModelResultsCollector()
+    #     try:
+    #         tqm = TaskQueueManager(
+    #             inventory=self.inventory,
+    #             variable_manager=self.variable_manager,
+    #             loader=self.loader,
+    #             options=self.options,
+    #             passwords=self.passwords,
+    #         )
+    #         tqm._stdout_callback = self.callback
+    #         tqm.run(play)
+    #     except Exception as err:
+    #         DsRedis.OpsAnsibleModel.lpush(self.redisKey ,data=err)
+    #         if self.logId :AnsibleSaveResult.Model.insert(self.logId, err)
+    #     finally:
+    #         if tqm is not None:
+    #             tqm.cleanup()
+
+
+    def run_model(self, host_pattern):
+        play_source =  dict(
+                name = "Ansible Ad-Hoc",
+                hosts = host_pattern,
+                gather_facts = 'no',
+                tasks = [
+                    dict(action=dict(module='setup'), register='shell_out',async=0,poll=15),
+        #            dict(action=dict(module='debug', args=dict(msg='{{shell_out.stdout}}')),async=0,poll=15)
+                 ]
+            )
+
+        play = Play().load(play_source, variable_manager=self.variable_manager, loader=self.loader)
+
+        tqm = None
+        try:
+            tqm = TaskQueueManager(
+                      inventory=self.inventory,
+                      variable_manager=self.variable_manager,
+                      loader=self.loader,
+                      options=self.options,
+                      passwords=self.passwords,
+                      stdout_callback=self.results_callback
+                  )
+            result = tqm.run(play)
+            print u'任务执行返回码: %s' % result
+        finally:
+            if tqm is not None:
+                tqm.cleanup()
+            if self.loader:
+                self.loader.cleanup_all_tmp_files()
+            shutil.rmtree(C.DEFAULT_LOCAL_TMP, True)

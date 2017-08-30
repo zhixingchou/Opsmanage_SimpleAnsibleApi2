@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>运维管理平台</title>
+
+    <!-- by me -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- metisMenu 是个Bootstrap 3 风格的 jQuery 菜单插件，允许用户创建类似手风琴效果的可折叠菜单，允许自动折叠效果。-->
+    <link href="https://cdn.bootcss.com/metisMenu/1.1.3/metisMenu.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/metisMenu/1.1.3/metisMenu.min.js"></script>
+
+    <!-- 多选下拉框 -->
+    <link href="https://cdn.bootcss.com/bootstrap-select/1.7.2/css/bootstrap-select.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.7.2/js/bootstrap-select.js"></script>
+
+    <!-- A Bootstrap admin theme, dashboard, or web app UI featuring powerful jQuery plugins for extended functionality. -->
+    <!-- 添加后有下拉效果 -->
+    <link href="https://cdn.bootcss.com/startbootstrap-sb-admin-2/3.3.7+1/css/sb-admin-2.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/startbootstrap-sb-admin-2/3.3.7+1/js/sb-admin-2.js"></script>
+
+
+    <!-- morris.js是一个轻量级的时间序列javascript类库，是网页显示图表的好工具。 -->
+    <link href="https://cdn.bootcss.com/morris.js/0.5.0/morris.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/morris.js/0.5.0/morris.min.js"></script>
+
+
+    <!-- DataTables CSS -- table模板{资产列表？} 没有国内cdn，国外的要翻墙-->
+
+
+    <!-- xcConfirm 弹窗开始样式 -->
+
+
+    <!-- Datetimepicker -- bootstrap(可以快速搭建前端页面的css库，但又不单单是一个库，还有许多组件和插件)，日期时间选择器（Datetimepicker）是bootstrap日期和时间表单组件。-->
+
+
+
+    <!-- ------------ -->
+
+    <!-- jQuery -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/static/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- DataTables CSS -->
+    <link href="/static/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/static/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<!-- Multiselect CSS -->
+   	<link rel="stylesheet" href="/static/dist/css/bootstrap-select.css" type="text/css"/>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+    
+    <!-- Morris Charts JavaScript -->
+    <script src="/static/vendor/raphael/raphael.min.js"></script>
+    <script src="/static/vendor/morrisjs/morris.min.js"></script>
+    
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/dist/js/sb-admin-2.js"></script>  
+      
+    <!-- Flot Charts JavaScript -->
+    <script src="/static/vendor/flot/excanvas.min.js"></script>
+    <script src="/static/vendor/flot/jquery.flot.js"></script>
+    <script src="/static/vendor/flot/jquery.flot.pie.js"></script>
+    <script src="/static/vendor/flot/jquery.flot.resize.js"></script>
+    <script src="/static/vendor/flot/jquery.flot.time.js"></script>
+    <script src="/static/vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+    
+    <!-- DataTables JavaScript -->
+    <script src="/static/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/static/vendor/datatables-responsive/dataTables.responsive.js"></script> 
+    
+	<!--    弹窗开始样式 -->
+   	<script src="/static/dist/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+   	<link rel="stylesheet" type="text/css" href="/static/dist/css/xcConfirm.css"/>
+   	<!--   csrf -->
+	<script src="/static/js/csrf.js"></script>  
+	  
+    <!-- Multiselect JavaScript -->
+    <script type="text/javascript" src="/static/dist/js/bootstrap-select.js"></script>
+      
+    <!-- Echat JavaScript -->
+    <script type="text/javascript" src="/static/js/echarts.js"></script> 
+    
+    <!-- Datetimepicker -->
+    <link rel="stylesheet" href="/static/dist/css/bootstrap-datetimepicker.min.css" type="text/css"/>
+    <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js"></script> 
+    
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">OpsManage v1.0</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw">
+                        </i><span class="badge" id="deploy_order_count"></span>
+                        <i class="fa fa-caret-down"></i>
+                        
+                    </a>
+	                <ul class="dropdown-menu dropdown-messages" id="deploy_order"> 
+	                </ul>              	
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        {{user}} <i class="fa fa-user fa-fw"></i><iclass="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="/user/center/"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw"></i> 资产管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/assets_config">基础配置</a>
+                                </li>
+                                <li>
+                                    <a href="/assets_add">添加资产</a>
+                                </li>
+								<li>
+                                    <a href="/assets_list">资产列表</a>
+                                </li>      
+								<li>
+	                                    <a href="/assets_log">操作日志</a>
+	                            </li>                                                        
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>                      
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-hdd"></i> 代码发布<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/deploy_add">项目配置</a>
+                                </li>
+                                <li>
+                                    <a href="/deploy_list">项目列表</a>
+                                </li>
+                                <li>
+                                    <a href="/deploy_order">部署工单</a>
+                                </li> 
+								<li>
+	                                <a href="/deploy_log">操作日志</a>
+	                            </li>                                 
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-table fa-fw"></i> 任务管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/cron_add">添加任务</a>
+                                </li>                            
+                                <li>
+                                    <a href="/cron_config">批量导入</a>
+                                </li>
+                                <li>
+                                    <a href="/cron_list">任务列表</a>
+                                </li>
+								<li>
+	                                 <a href="/cron_log/">操作日志</a>
+	                            </li>                                 
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>                          
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i>应用部署<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/apps/model">运行模块</a>
+                                </li>
+                                <li>
+                                    <a href="#">剧本配置<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="/apps/playbook/add">剧本添加</a>
+                                        </li>
+                                        <li>
+                                            <a href="/apps">剧本列表</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
+								<li>
+                                    <a href="/apps/log/">操作日志</a>
+                                </li>                               
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="/config"><i class="fa fa-wrench fa-fw"></i> 全局配置</a>
+                        </li>                                               
+                        <li>
+                            <a href="#"><i class="fa fa-group "></i> 用户中心<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                            	<li>
+                                    <a href="/users/manage">用户管理</a>
+                                </li>
+                                <li>
+                                    <a href="/user/center">用户配置</a>
+                                </li>
+                                <li>
+                                    <a href="/logout">退出</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+<script type="text/javascript"> 
+	$(function() {
+		$.ajax({
+			url:'/api/order/{{user}}/', //请求地址
+			type:"GET",  //提交类似
+			success:function(response){
+				if (response.length > 0 ){						
+						var newStr = ''
+						for (var i=0;i< response.length;i++)
+							{
+							newStr += '<li><a href="/deploy_order/status/'+ response[i]['id'] + '/">'+
+									  '<div>' +
+									  '<strong>' +  response[i]['order_user'] + '</strong>' +
+									  '<span class="pull-right text-muted">' +
+									  '<em>' + response[i]['create_time'].replace("T",' ').replace(/-/g,'/').slice(0,16) + '</em>' +
+									  '</span>' +
+									  '</div>' +
+									  '<div>'+ response[i]['order_subject'] + '</div>' +
+									  '</a>' +
+									  '</li><li class="divider"></li>';
+						};
+						$('#deploy_order').html(newStr);	
+						$('#deploy_order_count').html(response.length);	
+					}
+			}
+		});	
+	});
+
+</script>
+</body>
+
+</html>

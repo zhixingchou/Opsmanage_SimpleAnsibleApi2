@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>update asset</title>
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th>ip</th>
+            <th>cpu core</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in asset %}
+        <tr>
+            <td>{{ a.ip }}</td>
+            <td>{{ a.cpucore }}</td>
+            <input type="button" value="更新" onclick='DoAjax(this,"{{ a.ip }}")'>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
+<script type='text/javascript'>
+    function DoAjax(){
+
+        {# 未实现获取onclick的a.ip参数，使用下面自定义的IP #}
+        var ip = "192.168.1.215";
+        alert(ip)
+
+        $.ajax({
+            url:"/asset_fact",
+            dataType:"json",
+            type:"POST",
+            data:{
+                'ip':ip
+            },
+            success:function (arg) {
+                console.log(arg);
+            },
+            error:function () {
+                console.log('failed')
+            }
+        });
+    }
+</script>
+</body>
+</html>
